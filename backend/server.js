@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-const OPENAI_API_URL = 'https://api.openai.com/v1/responses';
+const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
 
 const SYSTEM_PROMPT = `You are a senior enterprise AI strategy consultant.
 
@@ -56,42 +56,26 @@ app.post('/api/generate', async (req, res) => {
       body: JSON.stringify({
         model: 'gpt-4o-mini',
         temperature: 0.4,
-        max_output_tokens: 350,
-        instructions: SYSTEM_PROMPT,
-        output: [
-          {
-            type: 'text',
-            format: 'json_object'
-          }
+        max_tokens: 400,
+        messages: [
+          { role: 'system', content: SYSTEM_PROMPT },
+          { role: 'user',   content: `Business Problem:\n"${problem}"` },
         ],
-        input: [
-            {
-                role: 'user',
-                content: [
-                    {
-                        type: 'text',
-                        text: `Business Problem: ${problem}`
-                    }
-                ]
-            }
-        ]
+        response_format: { type: 'json_object' },
       })
     });
 
     if (!response.ok) {
       const errorData = await response.json();
       console.error('OpenAI API Error:', errorData);
-      return res.status(response.status).json({ error: errorData.error?.message || 'Failed to call OpenAI Responses API' });
+      return res.status(response.status).json({ error: errorData.error?.message || 'Failed to call OpenAI API' });
     }
 
     const data = await response.json();
-    
-    // The structured JSON is expected in output[0].content[0].text per Responses API preview
-    // Note: The structure of /v1/responses is slightly different from /v1/chat/completions
-    const content = data.output?.[0]?.content?.[0]?.text;
+    const content = data.choices?.[0]?.message?.content;
     
     if (!content) {
-      throw new Error('Unexpected response format from OpenAI.');
+      throw new Error('No content returned from AI.');
     }
 
     let parsedResult;
