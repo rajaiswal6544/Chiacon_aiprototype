@@ -57,8 +57,13 @@ app.post('/api/generate', async (req, res) => {
         model: 'gpt-4o-mini',
         temperature: 0.4,
         max_output_tokens: 350,
-        response_format: { type: 'json_object' },
         instructions: SYSTEM_PROMPT,
+        output: [
+          {
+            type: 'text',
+            format: 'json_object'
+          }
+        ],
         input: [
             {
                 role: 'user',
