@@ -1,6 +1,16 @@
 import { useState, useRef } from 'react';
 
-const API_URL = 'http://localhost:3001/api/generate';
+const API_URL = 'https://chiacon-aiprototype.onrender.com/api/generate';
+
+const INDUSTRIES = [
+  { value: 'general',       label: 'Select Industry (Optional)' },
+  { value: 'fmcg',          label: 'FMCG & Consumer Goods' },
+  { value: 'oilgas',        label: 'Oil & Gas' },
+  { value: 'healthcare',    label: 'Healthcare & Life Sciences' },
+  { value: 'finance',       label: 'Financial Services' },
+  { value: 'retail',        label: 'Retail & E-Commerce' },
+  { value: 'manufacturing', label: 'Manufacturing & Supply Chain' },
+];
 
 // ── Main component ───────────────────────────────────────────────────────────
 export default function AiDemo() {
