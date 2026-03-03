@@ -20,6 +20,7 @@ This project is an AI Webpage Prototype designed to demonstrate Chiacon’s ente
 - **Frontend**: React 18, Vite, Vanilla CSS.
 - **Backend**: Node.js, Express.
 - **AI**: OpenAI API (`gpt-4o-mini`).
+- **Endpoint**: Chat Completions API (`/v1/chat/completions`).
 - **Deployment**: Vercel (Frontend), Render (Backend).
 
 ## 5. Architecture Overview
@@ -32,7 +33,7 @@ The backend proxy is implemented to protect API keys from client-side exposure a
 ## 6. AI Prompt Design
 The core AI functionality is driven by a carefully designed instruction set:
 - **Structured System Prompt**: Establishes a "Senior Enterprise AI Strategy Consultant" persona.
-- **JSON Enforcement**: Uses OpenAI's `response_format` to guarantee valid, parseable outputs.
+- **JSON Enforcement**: Uses the stable `v1/chat/completions` JSON mode to guarantee valid, parseable outputs.
 - **Token Optimization**: Configured with strict output limits to ensure concise, high-value responses.
 - **Enterprise Tone**: Specifically tuned to avoid generative hype and focus on realistic business outcomes.
 
